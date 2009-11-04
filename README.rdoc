@@ -11,7 +11,6 @@ Trendi18n is database backend for Rails' i18n.  Trendi18n offers some administra
 * edit existing translate
 * remove existing translate
 * looking for translations in database (with locale and translation status conditions)
-* fast and easy interface using AJAX (jQuery) and HAML
 
-Real-time updating store_translations.
+Real-time updating store_translations
 
