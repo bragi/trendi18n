@@ -9,7 +9,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091102122919) do
+ActiveRecord::Schema.define(:version => 20091109171526) do
+
+  create_table "translations", :force => true do |t|
+    t.string   "locale"
+    t.string   "key"
+    t.string   "scope"
+    t.text     "default"
+    t.text     "translation"
+    t.text     "zero"
+    t.text     "one"
+    t.text     "many"
+    t.text     "few"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "name"

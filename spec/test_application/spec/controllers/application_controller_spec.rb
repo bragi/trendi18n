@@ -2,10 +2,9 @@ require 'spec_helper'
 
 describe ApplicationController do
 
-  #Delete this example and add some real ones
-  it "should use ApplicationController" do
-    controller.should be_an_instance_of(ApplicationController)
-  end
+=begin
+
+  USE IT ONLY BEFORE RUNING trendi18n  GENERATOR
 
   # This test is checking create command of trendi18n generator
   it "generator should install migration" do
@@ -22,5 +21,5 @@ describe ApplicationController do
     ActiveRecord::Migrator.new(:up, "db").migrated.include?(version).should == false
 
   end
-
+=end
 end
