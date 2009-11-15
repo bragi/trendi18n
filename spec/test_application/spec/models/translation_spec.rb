@@ -46,10 +46,15 @@ describe Translation do
     for data in @status_test_attributes do
       model = Translation.new(data)
       model.save!
-      puts @status_test_attributes.index(data)
-      model.has_some_plural_forms?.should == true if @status_test_attributes.index(data) == 2
       model.status.should == @status_test_results[@status_test_attributes.index(data)]
     end
-
   end
+
+  it "should lookup for new translations" do
+    translation_new = Translation.lookup("en", "key", nil, "scope")
+    translation_new.default.should == "key"
+    translation_exists = Translation.lookup("en", "key", nil, "scope")
+    translation_exists.should == translation_new
+  end
+
 end
