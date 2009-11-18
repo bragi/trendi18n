@@ -34,6 +34,14 @@ class Translation < ActiveRecord::Base
     @base_read_at = Time.zone.now
   end
 
+  def self.clear_base_read_at
+    @base_read_at = nil
+  end
+
+  def self.update_base
+    @base_read_at = nil
+  end
+
   def self.up_to_date?
     @base_read_at >= self.base_updated_at
   end
