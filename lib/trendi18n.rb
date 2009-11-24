@@ -19,7 +19,7 @@ module Trendi18n
         count, scope, default = options.values_at(:count, :scope, :default)
 
         options.delete(:default) #delete default from option
-        
+
         # read values of scope and default options and delete them form options
         values = options.reject {|name, value| [:scope, :default].include?(name)}
 
@@ -53,8 +53,8 @@ module Trendi18n
       # cache and return translation. Translation can be find by:
       # - standard I18n::Backend::Simple.lookup method. If its failed, then:
       # - Translation model lookup method
-      cache_translation(translation = Translation.lookup(locale, key, default, scope)) if !translation = super(locale, key, scope)
-      translation
+     cache_translation(translation = Translation.lookup(locale, key, default, scope)) if !translation = super(locale, key, scope)
+     translation
     end
 
     private
