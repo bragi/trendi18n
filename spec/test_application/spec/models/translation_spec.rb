@@ -14,6 +14,8 @@ describe Translation do
       :many => "many test"
     }
 
+
+
     @status_test_attributes = [
       {:locale => "en",
         :key => "status_test1",
@@ -38,9 +40,6 @@ describe Translation do
     @status_test_results = ["new", "finished", "unfinished", "finished"]
   end
 
-  it "should create a new instance given valid attributes" do
-    Translation.create!(@valid_attributes)
-  end
 
   it "should assign status to new created model" do
     for data in @status_test_attributes do
@@ -55,6 +54,37 @@ describe Translation do
     translation_new.default.should == "key"
     translation_exists = Translation.lookup("en", "key", nil, "scope")
     translation_exists.should == translation_new
+  end
+
+  it "should be with count" do
+    Translation.new(:key => "I have {{count}} plural forms").with_count?.should_not == nil
+  end
+
+  it "should not be with count" do
+    Translation.new(:key => "I do not have count").with_count?.should == nil
+  end
+
+  it "should create translation with correct scope when translation is missing on lookup" do
+    Translation.lookup(:en, :some_key, nil, [:scope, :subscope])
+    Translation.find_by_key_and_scope("some_key", "scope.subscope").should_not == nil
+  end
+
+  it "should not save translations with not properly attributes" do
+    Translation.new(@valid_attributes.merge(:key => nil)).save.should == false
+    Translation.new(@valid_attributes.merge(:locale => "p")).save.should == false
+    Translation.new(@valid_attributes.merge(:locale => "too long locale")).save.should == false
+    Translation.create!(@valid_attributes)
+    Translation.new(@valid_attributes).save.should == false
+  end
+
+  it "should find translation by normalized keys" do
+    translation = Translation.create(@valid_attributes.merge(:key => "Key", :scope => "Scope.With.Dots"))
+    Translation.find_by_string_normalized_key("Scope.With.Dots.Key").should == translation
+  end
+
+  it "should find using find_by_string_normalized_key using simple key as attribute" do
+    translation = Translation.create(@valid_attributes.merge(:key => "SimpleKey", :scope => nil ))
+    Translation.find_by_string_normalized_key(translation.key).should == translation
   end
 
 end

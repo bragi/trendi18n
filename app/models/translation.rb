@@ -1,10 +1,9 @@
 class Translation < ActiveRecord::Base
   before_validation :set_status
   before_validation :set_defaults
-  
-  validates_inclusion_of :status, :in => %w(new unfinished finished)
+
+
   validates_presence_of :key
-  validates_presence_of :default
   validates_length_of :locale, :within => 2..6
   validates_uniqueness_of :key, :scope => %w(locale scope)
 
@@ -14,7 +13,12 @@ class Translation < ActiveRecord::Base
     @@locales unless @@locales.nil? && self.up_to_date?
     @@locales = self.find(:all, :select => "distinct(locale", :order => "locale ASC").map(&:locale)
   end
-  
+
+   def self.find_by_string_normalized_key(key)
+    scope = I18n.send(:normalize_translation_keys, I18n.locale, key, nil).map(&:to_s)
+    self.first(:conditions => {:key => scope.last, :locale => scope.first, :scope => scope[1..-2].empty? ? nil : scope[1..-2].join(".") }) || raise(ActiveRecord::RecordNotFound, "Could not find translation with key #{key}")
+  end
+
 
   def set_status
     self.status = self.with_count? ? self.has_all_plural_forms? ? "finished" : self.has_some_plural_forms? ? "unfinished" : "new" : self.translation.blank? ? "new" : "finished"
@@ -27,7 +31,7 @@ class Translation < ActiveRecord::Base
   end
 
   def self.base_updated_at
-    self.first(:order => "updated_at DESC").updated_at
+    self.first(:order => "updated_at DESC", :conditions => "updated_at > created_at").updated_at
   end
 
   def self.read_base
@@ -49,7 +53,6 @@ class Translation < ActiveRecord::Base
   def with_count?
     /\{\{count\}\}/.match(self.key)
   end
-
   def has_all_plural_forms?
     !self.zero.blank? && !self.one.blank? && !self.many.blank?
   end
