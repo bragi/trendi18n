@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Translation do
-  before(:each) do
+  before(:all) do
     @valid_attributes = {
       :locale => "en",
       :key => "test",
@@ -16,7 +16,14 @@ describe Translation do
 
 
 
-    @status_test_attributes = [
+
+  end
+
+
+  describe "status assigment" do
+
+    before do
+       @status_test_attributes = [
       {:locale => "en",
         :key => "status_test1",
         :default => "default1"
@@ -38,15 +45,16 @@ describe Translation do
     ]
 
     @status_test_results = ["new", "finished", "unfinished", "finished"]
-  end
-
-
-  it "should assign status to new created model" do
-    for data in @status_test_attributes do
-      model = Translation.new(data)
-      model.save!
-      model.status.should == @status_test_results[@status_test_attributes.index(data)]
     end
+
+    it "should assign status to new created model" do
+      for data in @status_test_attributes do
+        model = Translation.new(data)
+        model.save!
+        model.status.should == @status_test_results[@status_test_attributes.index(data)]
+      end
+    end
+
   end
 
   it "should lookup for new translations" do

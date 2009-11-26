@@ -7,13 +7,13 @@ I18n.backend = Trendi18n::Backend::Trendi18n.new
 describe Trendi18n::Backend::Trendi18n do
 
   before do
-    I18n.backend.is_a?(Trendi18n::Backend::Trendi18n)
+    I18n.backend.is_a?(Trendi18n::Backend::Trendi18n).should == true
     @data = [{
       :key => "key1", :translation => "Translation of key1"
     }, {
       :key => "key2", :scope => "scope1.subscope1", :translation => "Translation of key2"
     }, {
-      :key => "key3", :scope => "scope1.subscope2", :translation => "Translation of key 2"
+      :key => "key3", :scope => "scope1.subscope2", :translation => "Translation of key3"
     }]
     for attributes in @data do
       Translation.create!(attributes)
@@ -26,11 +26,11 @@ describe Trendi18n::Backend::Trendi18n do
       I18n.reload!
     end
 
-    it "should lookup the key in db when the firts time it is used" do
-      translation = Translation.new(:key => "test_key", :translation => "test_translations")
-      Translation.should_receive(:lookup).once.and_return(translation)
-      I18n.t("test_key")
-    end
+   # it "should lookup the key in db when the firts time it is used" do
+    #  translation = Translation.new(:key => "test_key", :translation => "test_translations")
+     # Translation.should_receive(:lookup).once.and_return(translation)
+      #I18n.t("test_key")
+    #end
 
   end
 

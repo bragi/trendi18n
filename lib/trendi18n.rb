@@ -31,43 +31,49 @@ module Trendi18n
           end
         end
 
+
         entry = lookup(locale, key, default, scope) # lookup for translation
         entry = entry.pluralize(count) # run pluralization for translation
         entry = interpolate(locale, entry, values) # run interpolation for translation
+
+       end
+
+      def reload!
+        super # run standard I18n::Backend::Simple reload! method
+        Translation.clear_base_read_at # and clear information about time of last translation's base read
       end
+
+      protected
+
+      def init_translations
+        # only set @initialized. Translations will be caching in real-time
+        @initialized = true
+      end
+
+
+
+
+      def lookup(locale, key, default, scope)
+        # cache and return translation. Translation can be find by:
+        # - standard I18n::Backend::Simple.lookup method. If its failed, then:
+        # - Translation model lookup method
+        cache_translation(translation = Translation.lookup(locale, key, default, scope)) if !translation = super(locale, key, scope)
+        translation
+
+     end
+
+      private
+
+      def nested
+        # assign new instance of I18n::Backend::Simple for @nested if its not exists
+        @nested ||= I18n::Backend::Simple.new
+      end
+
+      def cache_translation(translation)
+        # add translation to stored
+        store_translations(translation.locale, translation.to_translation_hash)
+      end
+
     end
-
-    def reload!
-      super # run standard I18n::Backend::Simple reload! method
-      Translation.clear_base_read_at # and clear information about time of last translation's base read
-    end
-
-    protected
-
-    def init_translations
-      # only set @initialized. Translations will be caching in real-time
-      @initialized = true
-    end
-
-    def lookup(locale, key, default, scope)
-      # cache and return translation. Translation can be find by:
-      # - standard I18n::Backend::Simple.lookup method. If its failed, then:
-      # - Translation model lookup method
-     cache_translation(translation = Translation.lookup(locale, key, default, scope)) if !translation = super(locale, key, scope)
-     translation
-    end
-
-    private
-
-    def nested
-      # assign new instance of I18n::Backend::Simple for @nested if its not exists
-      @nested ||= I18n::Backend::Simple.new
-    end
-
-    def cache_translation(translation)
-      # add translation to stored
-      store_translations(translation.locale, translation.to_translation_hash)
-    end
-
   end
 end
