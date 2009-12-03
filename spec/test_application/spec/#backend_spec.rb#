@@ -83,11 +83,7 @@ describe Trendi18n::Backend::Trendi18n do
         @translation.update_attribute("created_at", 2.minutes.ago)
         I18n.backend.up_to_date?.should == false
       end
-
-
     end
-
-
   end
 
 end

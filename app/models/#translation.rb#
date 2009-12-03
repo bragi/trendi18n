@@ -50,11 +50,6 @@ class Translation < ActiveRecord::Base
     @base_read_at.nil? || @base_read_at.to_i > self.base_updated_at.to_i
   end
 
-  def self.new_up_to_date?
-    p @base_read_at.class
-    p self.base_updated_at.class
-    @base_read_at > self.base_updated_at
-  end
 
   def with_count?
     /\{\{count\}\}/.match(self.key)

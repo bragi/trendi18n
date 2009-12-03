@@ -57,7 +57,7 @@ module Trendi18n
         # cache and return translation. Translation can be find by:
         # - standard I18n::Backend::Simple.lookup method. If its failed, then:
         # - Translation model lookup method
-        cache_translation(translation = Translation.lookup(locale, key, default, scope)) if !translation = super(locale, key, scope)
+        cache_translation(translation = Translation.lookup(locale, key, default, scope)) unless translation = super(locale, key, scope)
         translation
 
      end
