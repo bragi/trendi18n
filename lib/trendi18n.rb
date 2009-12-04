@@ -17,7 +17,6 @@ module Trendi18n
 
         # read count, scope and default from options
         count, scope, default = options.values_at(:count, :scope, :default)
-
         options.delete(:default) #delete default from option
 
         # read values of scope and default options and delete them form options
@@ -31,12 +30,10 @@ module Trendi18n
           end
         end
 
-
         entry = lookup(locale, key, default, scope) # lookup for translation
         entry = entry.pluralize(count) # run pluralization for translation
         entry = interpolate(locale, entry, values) # run interpolation for translation
-
-       end
+      end
 
       def reload!
         super # run standard I18n::Backend::Simple reload! method
