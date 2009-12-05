@@ -5,10 +5,12 @@ module Trendi18n
     class Trendi18n < I18n::Backend::Simple
       delegate :up_to_date?, :to => Translation # delgate up_to_date? method to Translation model
 
+      # return available locales, based on informaton form Trans;ation model
       def available_locales
         Translation.locales
       end
 
+      # translate key in locale using options
       def translate(locale, key, options = {})
         raise InvalidLocale.new(locale) if locale.nil?
 
@@ -35,6 +37,7 @@ module Trendi18n
         entry = interpolate(locale, entry, values) # run interpolation for translation
       end
 
+
       def reload!
         super # run standard I18n::Backend::Simple reload! method
         Translation.clear_base_read_at # and clear information about time of last translation's base read
@@ -47,6 +50,7 @@ module Trendi18n
         @initialized = true
       end
 
+      # look up for translation. When find cache it and return
       def lookup(locale, key, default, scope)
         # cache and return translation. Translation can be find by:
         # - standard I18n::Backend::Simple.lookup method. If its failed, then:
@@ -58,13 +62,13 @@ module Trendi18n
 
       private
 
+      # assign new instance of I18n::Backend::Simple for @nested if its not exists
       def nested
-        # assign new instance of I18n::Backend::Simple for @nested if its not exists
         @nested ||= I18n::Backend::Simple.new
       end
 
+      # add translation to stored
       def cache_translation(translation)
-        # add translation to stored
         store_translations(translation.locale, translation.to_translation_hash)
       end
 

@@ -10,12 +10,6 @@ module NavigationHelpers
     
     when /the home\s?page/
       '/'
-    when /the new test page/
-      new_test_path
-
-    when /the new test page/
-      new_test_path
-
     
     # Add more mappings here.
     # Here is a more fancy example:

@@ -26,7 +26,6 @@ Gem::Specification.new do |s|
      "generators/trendi18n/trendi18n_generator.rb",
      "init.rb",
      "install.rb",
-     "lib/#commands.rb#",
      "lib/commands.rb",
      "lib/file.rb",
      "lib/trendi18n.rb",

@@ -98,7 +98,7 @@ describe Trendi18n::Backend::Trendi18n do
         I18n.t(:non_existing_key, :default => "This key not exists").should == "This key not exists"
       end
 
-      it "should return the translation given as symbol"
+      it "should return default translation given as symbol"
 
       it "should return default translation from string in array"
 

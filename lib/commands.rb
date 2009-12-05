@@ -27,7 +27,6 @@ module Trendi18n
             puts "Removing migration file..."
             migration_template(File.join("migrations", "create_translations.rb"), File.join("db", "migrate"),
               :migration_file_name => ActiveRecord::Base.pluralize_table_names ? "create_translations" : "create_translation")
-            
         end
 
       end
