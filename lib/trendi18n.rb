@@ -47,9 +47,6 @@ module Trendi18n
         @initialized = true
       end
 
-
-
-
       def lookup(locale, key, default, scope)
         # cache and return translation. Translation can be find by:
         # - standard I18n::Backend::Simple.lookup method. If its failed, then:
