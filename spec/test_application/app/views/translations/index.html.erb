@@ -1,0 +1,11 @@
+<table>
+  <% for t in @translations  %>
+    <tr>
+      <td><%= h t.key %></td>
+      <td><%= h t.translation%></td>
+      <td><%= h t.locale %></td>
+    </tr>
+  <% end %>
+</table>
+
+Params <%= params %>

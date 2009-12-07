@@ -10,6 +10,13 @@ module NavigationHelpers
     
     when /the home\s?page/
       '/'
+    when /the list of translations/
+      translations_path
+    
+    when /the list of unfinished translations/
+      translations_path :condition => "untranslated"
+    when /the list of finished translations/
+      translations_path :condition => "translated"
     
     # Add more mappings here.
     # Here is a more fancy example:
