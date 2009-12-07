@@ -2,6 +2,9 @@ class Translation < ActiveRecord::Base
   before_validation :set_status
   before_validation :set_defaults
 
+  named_scope :untranslated, :conditions => {:status => %w(new unfinished)}
+  named_scope :translated, :conditions => {:status => "finished"}
+  named_scope :localization, lambda {|*args| args.first ? {:conditions => {:locale => args.first}} : nil }
 
   validates_presence_of :key
   validates_length_of :locale, :within => 2..6
@@ -35,6 +38,7 @@ class Translation < ActiveRecord::Base
     self.locale = I18n.locale.to_s if self.locale.nil? # if translation does not have locale, set I18n default
     self.default = key unless self.default # set key to default if it is not exists
     self.scope = nil if self.scope.blank? #set nil to scope if it is blank (empty string)
+    self.translation = nil if self.translation.blank? # set nil to translation if it is blank (empty string)
   end
 
   # time of the last db update

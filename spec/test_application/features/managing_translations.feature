@@ -26,3 +26,10 @@ Scenario: List of unfinished translations
     Then I should see "Key2"
     And I should not see "Key1"
 
+Scenario: List of translation in current locale
+    Given I have translated "Key1" to "Key1Translation" in "en" locale
+    And I have translated "Key1" to "Klucz1Tłumaczenie" in "pl" locale
+    When I go to the list of polish translations
+    Then I should see "Klucz1Tłumaczenie"
+    And I should not see "Key1Translation"
+

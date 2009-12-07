@@ -17,6 +17,8 @@ module NavigationHelpers
       translations_path :condition => "untranslated"
     when /the list of finished translations/
       translations_path :condition => "translated"
+    when /the list of polish translations/
+      translations_path :localization => "pl"
     
     # Add more mappings here.
     # Here is a more fancy example:
