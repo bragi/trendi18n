@@ -20,23 +20,23 @@ describe Translation do
   end
 
 
-  describe "status assigment" do
+  describe "state assigment" do
 
     before do
-       @status_test_attributes = [
+       @state_test_attributes = [
       {:locale => "en",
-        :key => "status_test1",
+        :key => "state_test1",
         :default => "default1"
       },
       {:locale => "en",
-       :key => "status_test2",
+       :key => "state_test2",
        :translation => "translation2"
       },
       {:key => "status_test3 {{count}}",
        :translation => "translation3",
        :one => "one_translation3"
       },
-      { :key => "status_test4 {{count}}",
+      { :key => "state_test4 {{count}}",
         :translation => "translation4",
         :one => "one_translation4",
         :zero => "zero_translation4",
@@ -44,14 +44,14 @@ describe Translation do
       }
     ]
 
-    @status_test_results = ["new", "finished", "unfinished", "finished"]
+    @state_test_results = ["new", "finished", "unfinished", "finished"]
     end
 
-    it "should assign status to new created model" do
-      for data in @status_test_attributes do
+    it "should assign state to new created model" do
+      for data in @state_test_attributes do
         model = Translation.new(data)
         model.save!
-        model.status.should == @status_test_results[@status_test_attributes.index(data)]
+        model.state.should == @state_test_results[@state_test_attributes.index(data)]
       end
     end
 

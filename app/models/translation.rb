@@ -1,9 +1,9 @@
 class Translation < ActiveRecord::Base
-  before_validation :set_status
+  before_validation :set_state
   before_validation :set_defaults
 
-  named_scope :untranslated, :conditions => {:status => %w(new unfinished)}
-  named_scope :translated, :conditions => {:status => "finished"}
+  named_scope :untranslated, :conditions => {:state => %w(new unfinished)}
+  named_scope :translated, :conditions => {:state => "finished"}
   named_scope :localization, lambda {|*args| args.first ? {:conditions => {:locale => args.first}} : nil }
 
   validates_presence_of :key
@@ -23,14 +23,14 @@ class Translation < ActiveRecord::Base
     self.first(:conditions => {:key => scope.last, :locale => scope.first, :scope => scope[1..-2].empty? ? nil : scope[1..-2].join(".") }) || raise(ActiveRecord::RecordNotFound, "Could not find translation with key #{key}")
   end
 
-  # Assign status to translation
+  # Assign state of translation
     # - if there is no count in the key, set new if there is not translation and set finished when translation exists
     # - if there is count in the key, then:
     #   * if translation has all plural forms, assign finished
     #   * if translation has some plural forms, then assign unfinished
     #   * if translation does not have plural forms, then assign new
-  def set_status
-    self.status = self.with_count? ? self.has_all_plural_forms? ? "finished" : self.has_some_plural_forms? ? "unfinished" : "new" : self.translation.blank? ? "new" : "finished"
+  def set_state
+    self.state = self.with_count? ? self.has_all_plural_forms? ? "finished" : self.has_some_plural_forms? ? "unfinished" : "new" : self.translation.blank? ? "new" : "finished"
   end
 
   # assign default values to translation
