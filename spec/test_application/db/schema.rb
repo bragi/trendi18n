@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091208191434) do
+ActiveRecord::Schema.define(:version => 20091208195455) do
 
   create_table "translations", :force => true do |t|
     t.string   "locale",      :limit => 6, :null => false
@@ -27,13 +27,5 @@ ActiveRecord::Schema.define(:version => 20091208191434) do
   end
 
   add_index "translations", ["locale", "key", "scope"], :name => "index_translations_on_locale_and_key_and_scope", :unique => true
-
-  create_table "users", :force => true do |t|
-    t.string   "name"
-    t.string   "description"
-    t.string   "locale"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end
