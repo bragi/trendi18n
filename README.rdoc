@@ -14,5 +14,6 @@ Trendi18n is database backend for Rails' i18n.  Trendi18n offers some administra
 
 Real-time updating store_translations
 
-Copyright
+= Copyright
+
 Copyright © 2009 Łukasz Piestrzeniewicz. See LICENSE for details.
