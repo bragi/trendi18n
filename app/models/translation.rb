@@ -1,6 +1,8 @@
 class Translation < ActiveRecord::Base
   before_validation :set_state
   before_validation :set_defaults
+  after_save :reload_backend
+
 
   named_scope :untranslated, :conditions => {:state => %w(new unfinished)}
   named_scope :translated, :conditions => {:state => "finished"}
@@ -10,11 +12,21 @@ class Translation < ActiveRecord::Base
   validates_length_of :locale, :within => 2..6
   validates_uniqueness_of :key, :scope => %w(locale scope)
 
-  @@locales = nil
+  @@locales = []
 
    # return locales if their exists and translations are up-to-date. In other case assign are locales values from db to locales and return this value
-  def self.locales
-    @@locales.nil? && self.up_to_date? ? @@locales : @@locales = self.find(:all, :select => "distinct(locale", :order => "locale ASC").map(&:locale)
+  def self.get_locales
+    @@locales
+  end
+
+  def self.set_locales
+    @@locales = self.all(:select => "DISTINCT(locale)", :order => "locale ASC").map { |obj| obj.locale  }
+  end
+
+  # This method is running after save translation into db and it is reloading I18n backend (trendi18n)
+  def reload_backend
+    I18n.backend.reload!
+    Translation.set_locales
   end
 
   # auto-magic finder using string normalized key to find translation. The first value in scope is the locale, the last is the key and all between are scopes
@@ -52,10 +64,6 @@ class Translation < ActiveRecord::Base
   end
 
   def self.clear_base_read_at
-    @base_read_at = nil
-  end
-
-  def self.update_base
     @base_read_at = nil
   end
 

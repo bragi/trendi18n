@@ -13,10 +13,6 @@ describe Translation do
       :few => "few test",
       :many => "many test"
     }
-
-
-
-
   end
 
 
@@ -93,6 +89,15 @@ describe Translation do
   it "should find using find_by_string_normalized_key using simple key as attribute" do
     translation = Translation.create(@valid_attributes.merge(:key => "SimpleKey", :scope => nil ))
     Translation.find_by_string_normalized_key(translation.key).should == translation
+  end
+
+  it "should return array of all locale values form db" do
+    Translation.read_base
+    Translation.create!(:key => "key", :locale => "pl")
+    Translation.create!(:key => "key", :locale => "en")
+    Translation.create!(:key => "key", :locale => "nl")
+    Translation.get_locales.should == ["en", "nl", "pl"]
+
   end
 
 end

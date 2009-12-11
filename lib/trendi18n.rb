@@ -5,9 +5,9 @@ module Trendi18n
     class Trendi18n < I18n::Backend::Simple
       delegate :up_to_date?, :to => Translation # delgate up_to_date? method to Translation model
 
-      # return available locales, based on informaton form Trans;ation model
+      # return available locales, based on informaton form Translation model
       def available_locales
-        Translation.locales || []
+        Translation.get_locales
       end
 
       # translate key in locale using options
@@ -48,6 +48,7 @@ module Trendi18n
       def init_translations
         # only set @initialized. Translations will be caching in real-time
         @initialized = true
+        Translation.set_locales
       end
 
       # look up for translation. When find cache it and return

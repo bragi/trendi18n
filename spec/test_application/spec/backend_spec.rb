@@ -78,10 +78,10 @@ describe Trendi18n::Backend::Trendi18n do
         I18n.backend.up_to_date? == true
       end
 
-      it "should not be up-to-date when translation is updated after use" do
+      it "should be up-to-date even translation is updated after use" do
         I18n.t("test_key")
         @translation.update_attribute("created_at", 2.minutes.ago)
-        I18n.backend.up_to_date?.should == false
+        I18n.backend.up_to_date?.should == true
       end
     end
   end
