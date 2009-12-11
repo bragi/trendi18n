@@ -37,9 +37,5 @@ class TranslationsController < ApplicationController
   def show
     @controller_message = I18n.t(:Key1)
   end
-
-
-
- 
   
 end

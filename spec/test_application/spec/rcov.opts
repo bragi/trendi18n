@@ -1,2 +1,3 @@
 --exclude "spec/*,gems/*"
+--include-file "trendi18n.rb,app/models/translation.rb"
 --rails
