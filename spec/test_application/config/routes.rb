@@ -41,8 +41,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :translations
 
-  map.main '', :controller => "Users", :action => "index"
-
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+#  map.connect ':controller/:action/:id'
+#  map.connect ':controller/:action/:id.:format'
 end

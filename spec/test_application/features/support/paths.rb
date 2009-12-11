@@ -19,6 +19,12 @@ module NavigationHelpers
       translations_path :condition => "translated"
     when /the list of polish translations/
       translations_path :localization => "pl"
+    when /the new translation form/
+      new_translation_path
+    when /the edit translation form/
+      edit_translation_path
+    when /the translations test page/
+      translation_path :id => 1
     
     # Add more mappings here.
     # Here is a more fancy example:

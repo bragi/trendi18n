@@ -35,7 +35,7 @@ class Translation < ActiveRecord::Base
 
   # assign default values to translation
   def set_defaults
-    self.locale = I18n.locale.to_s if self.locale.nil? # if translation does not have locale, set I18n default
+    self.locale = I18n.locale.to_s if self.locale.blank? # if translation does not have locale, set I18n default
     self.default = key unless self.default # set key to default if it is not exists
     self.scope = nil if self.scope.blank? #set nil to scope if it is blank (empty string)
     self.translation = nil if self.translation.blank? # set nil to translation if it is blank (empty string)

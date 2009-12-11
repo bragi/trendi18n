@@ -1,0 +1,6 @@
+<%= error_messages_for 'translation' %>
+
+<% form_for @translation, :url => {:action => "update"} do  %>
+    <%= render :partial => "form" %>
+    <%= submit_tag("Save") %>
+<% end %>

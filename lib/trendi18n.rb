@@ -7,7 +7,7 @@ module Trendi18n
 
       # return available locales, based on informaton form Trans;ation model
       def available_locales
-        Translation.locales
+        Translation.locales || []
       end
 
       # translate key in locale using options

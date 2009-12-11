@@ -1,11 +1,32 @@
 <table>
+  <tr>
+    <td>key</td>
+    <td>translation</td>
+    <td>scope</td>
+    <td>locale</td>
+    <td>default</td>
+    <td>zero</td>
+    <td>one</td>
+    <td>few</td>
+    <td>many</td>
+    <td>state</td>
+    <td>actions</td>
+  </tr>
   <% for t in @translations  %>
     <tr>
       <td><%= h t.key %></td>
       <td><%= h t.translation%></td>
+      <td><%= h t.scope %>
       <td><%= h t.locale %></td>
+      <td><%= h t.default %></td>
+      <td><%= h t.zero %></td>
+      <td><%= h t.one %></td>
+      <td><%= h t.few %></td>
+      <td><%= h t.many %></td>
+      <td><%= h t.state %></td>
+      <td><%= link_to("Edit translation", edit_translation_path(t)) %></td>
     </tr>
   <% end %>
 </table>
 
-Params <%= params %>
+<%= link_to("New translation", new_translation_path) %>
