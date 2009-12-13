@@ -11,7 +11,7 @@ begin
   # Use vendored cucumber binary if possible. If it's not vendored,
   # Cucumber::Rake::Task will automatically use installed gem's cucumber binary
   vendored_cucumber_binary = "#{vendored_cucumber_dir}/bin/cucumber" unless vendored_cucumber_dir.nil?
-
+  ENV['FEATURE'] = "#{RAILS_ROOT}/features"
   namespace :cucumber do
     Cucumber::Rake::Task.new({:ok => 'db:test:prepare'}, 'Run features that should pass') do |t|
       t.binary = vendored_cucumber_binary

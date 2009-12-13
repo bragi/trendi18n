@@ -1,8 +1,10 @@
+RAILS_ROOT = "spec/test_application"
+
 require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 require 'rubygems'
-require 'spec/rake/spectask'
+require 'tasks/rails'
 
 begin
   require 'jeweler'
@@ -17,11 +19,6 @@ begin
       puts "Jeweler not available"
 end
 
-desc "Run spec test for trendi18n's test application"
-Spec::Rake::SpecTask.new("spec") do |t|
-  t.libs << "spec/test_application/spec"
-  t.spec_files = FileList['spec/test_application/spec/**/*_spec.rb']
-end
 
 desc 'Default: run unit tests.'
 task :default => :test
