@@ -97,7 +97,13 @@ describe Translation do
     Translation.create!(:key => "key", :locale => "en")
     Translation.create!(:key => "key", :locale => "nl")
     Translation.get_locales.should == ["en", "nl", "pl"]
+  end
 
+  it "should return correct plural form (using count argument)" do
+    Translation.create!(:key => "with_count", :translation => "translation", :zero => "none", :one => "one", :many => "many ({{count}})")
+    I18n.t("with_count", :count => 0).should == "none"
+    I18n.t("with_count", :count => 1).should == "one"
+    I18n.t("with_count", :count => 2).should == "many (2)"
   end
 
 end
