@@ -4,19 +4,21 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{Trendi18n}
-  s.version = "0.9.0"
+  s.name = %q{trendi18n}
+  s.version = "0.9.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Piotr Misiurek"]
-  s.date = %q{2009-12-05}
-  s.description = %q{Some description}
+  s.authors = ["Piotr Misiurek", "Piotr Marciniak", "\305\201ukasz Piestrzeniewicz"]
+  s.date = %q{2009-12-14}
+  s.description = %q{Database backend for i18n (localization files are still supported). This is beta version so give me your feedback}
   s.email = %q{p.misiurek@gmail.com}
   s.extra_rdoc_files = [
-    "README.rdoc"
+    "LICENSE",
+     "README.rdoc"
   ]
   s.files = [
-    "MIT-LICENSE",
+    "LICENSE",
+     "MIT-LICENSE",
      "README.rdoc",
      "Rakefile",
      "Trendi18n.gemspec",
@@ -24,18 +26,19 @@ Gem::Specification.new do |s|
      "app/models/translation.rb",
      "generators/trendi18n/templates/migrations/create_translations.rb",
      "generators/trendi18n/trendi18n_generator.rb",
-     "init.rb",
-     "install.rb",
      "lib/commands.rb",
      "lib/file.rb",
      "lib/trendi18n.rb",
-     "spec/test_application/.gitignore",
      "spec/test_application/README",
      "spec/test_application/Rakefile",
      "spec/test_application/app/controllers/application_controller.rb",
-     "spec/test_application/app/helpers/application_helper.rb",
+     "spec/test_application/app/controllers/translations_controller.rb",
      "spec/test_application/app/views/layouts/application.rhtml",
-     "spec/test_application/app/views/users/index.rhtml",
+     "spec/test_application/app/views/translations/_form.html.erb",
+     "spec/test_application/app/views/translations/edit.html.erb",
+     "spec/test_application/app/views/translations/index.html.erb",
+     "spec/test_application/app/views/translations/new.html.erb",
+     "spec/test_application/app/views/translations/show.html.erb",
      "spec/test_application/config/boot.rb",
      "spec/test_application/config/database.yml",
      "spec/test_application/config/environment.rb",
@@ -47,14 +50,13 @@ Gem::Specification.new do |s|
      "spec/test_application/config/initializers/session_store.rb",
      "spec/test_application/config/locales/en.yml",
      "spec/test_application/config/routes.rb",
-     "spec/test_application/db/development.sqlite3",
-     "spec/test_application/db/migrate/20091109171526_create_translations.rb",
+     "spec/test_application/db/migrate/20091208195455_create_translations.rb",
      "spec/test_application/db/schema.rb",
      "spec/test_application/db/seeds.rb",
-     "spec/test_application/doc/README_FOR_APP",
      "spec/test_application/features/dynamic_translation.feature",
      "spec/test_application/features/managing_translations.feature",
      "spec/test_application/features/static_translation.feature",
+     "spec/test_application/features/step_definitions/translations_steps.rb",
      "spec/test_application/features/step_definitions/webrat_steps.rb",
      "spec/test_application/features/support/env.rb",
      "spec/test_application/features/support/paths.rb",
@@ -65,12 +67,6 @@ Gem::Specification.new do |s|
      "spec/test_application/public/422.html",
      "spec/test_application/public/500.html",
      "spec/test_application/public/favicon.ico",
-     "spec/test_application/public/images/rails.png",
-     "spec/test_application/public/javascripts/application.js",
-     "spec/test_application/public/javascripts/controls.js",
-     "spec/test_application/public/javascripts/dragdrop.js",
-     "spec/test_application/public/javascripts/effects.js",
-     "spec/test_application/public/javascripts/prototype.js",
      "spec/test_application/public/robots.txt",
      "spec/test_application/script/about",
      "spec/test_application/script/autospec",
@@ -89,19 +85,16 @@ Gem::Specification.new do |s|
      "spec/test_application/spec/models/translation_spec.rb",
      "spec/test_application/spec/rcov.opts",
      "spec/test_application/spec/spec.opts",
-     "spec/test_application/spec/spec_helper.rb",
-     "spec/test_application/test/functional/application_controller_test.rb",
-     "spec/test_application/test/unit/helpers/application_helper_test.rb",
-     "tasks/trendi18n_tasks.rake",
-     "uninstall.rb"
+     "spec/test_application/spec/spec_helper.rb"
   ]
+  s.homepage = %q{http://github.com/bragi/trendi18n}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Database backend for i18n}
   s.test_files = [
     "spec/test_application/app/controllers/application_controller.rb",
-     "spec/test_application/app/helpers/application_helper.rb",
+     "spec/test_application/app/controllers/translations_controller.rb",
      "spec/test_application/config/boot.rb",
      "spec/test_application/config/environment.rb",
      "spec/test_application/config/environments/cucumber.rb",
@@ -111,18 +104,17 @@ Gem::Specification.new do |s|
      "spec/test_application/config/initializers/new_rails_defaults.rb",
      "spec/test_application/config/initializers/session_store.rb",
      "spec/test_application/config/routes.rb",
-     "spec/test_application/db/migrate/20091109171526_create_translations.rb",
+     "spec/test_application/db/migrate/20091208195455_create_translations.rb",
      "spec/test_application/db/schema.rb",
      "spec/test_application/db/seeds.rb",
      "spec/test_application/features/step_definitions/webrat_steps.rb",
+     "spec/test_application/features/step_definitions/translations_steps.rb",
      "spec/test_application/features/support/env.rb",
      "spec/test_application/features/support/paths.rb",
      "spec/test_application/features/support/version_check.rb",
-     "spec/test_application/spec/models/translation_spec.rb",
-     "spec/test_application/spec/spec_helper.rb",
      "spec/test_application/spec/backend_spec.rb",
-     "spec/test_application/test/functional/application_controller_test.rb",
-     "spec/test_application/test/unit/helpers/application_helper_test.rb"
+     "spec/test_application/spec/models/translation_spec.rb",
+     "spec/test_application/spec/spec_helper.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -130,9 +122,12 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<rails>, [">= 2.3.5"])
     else
+      s.add_dependency(%q<rails>, [">= 2.3.5"])
     end
   else
+    s.add_dependency(%q<rails>, [">= 2.3.5"])
   end
 end
 

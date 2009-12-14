@@ -9,7 +9,7 @@ require 'tasks/rails'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
-      gemspec.name = "Trendi18n"
+      gemspec.name = "trendi18n"
       gemspec.summary = "Database backend for i18n"
       gemspec.description = "Database backend for i18n (localization files are still supported). This is beta version so give me your feedback"
       gemspec.email = "p.misiurek@gmail.com"
