@@ -11,9 +11,19 @@ begin
   Jeweler::Tasks.new do |gemspec|
       gemspec.name = "Trendi18n"
       gemspec.summary = "Database backend for i18n"
-      gemspec.description = "Some description"
+      gemspec.description = "Database backend for i18n (localization files are still supported). This is beta version so give me your feedback"
       gemspec.email = "p.misiurek@gmail.com"
-      gemspec.authors = ["Piotr Misiurek"]
+      gemspec.authors = ["Piotr Misiurek", "Piotr Marciniak", "Łukasz Piestrzeniewicz"]
+      files = FileList["[A-Z]*", "{generators,lib,spec,app}/**/*"]
+      files.exclude "spec/test_application/coverage/*"
+      files.exclude "spec/test_application/tmp/*"
+      files.exclude "spec/test_application/nbproject/*"
+      files.exclude "spec/test_application/log/*"
+      files.exclude "spec/test_applcation/test/*"
+      files.exclude "spec/test_application/db/*sqlite3"
+      gemspec.files = files.to_a
+      gemspec.homepage = "http://github.com/bragi/trendi18n"
+      gemspec.add_dependency("rails", ">= 2.3.5")
   end
    rescue LoadError
       puts "Jeweler not available"
