@@ -22,6 +22,24 @@ Trendi18n offers some administration functionality, which offers:
 
 Real-time updating store_translations
 
+= Install
+
+Trendi18n is hosted on gemcutter. Add gemcutter to your gems source and type:
+
+    gem install trendi18n
+
+= How to use
+
+If you want to use trendi18n in your app you should do two steps:
+
+* Add to apps config/environment.rb file:
+
+    config.gem "trendi18n", :lib => false
+
+* Run trendi18n generator. Type in your app main directory:
+
+    ruby script/generate trendi18n
+
 = Copyright
 
 Copyright © 2009 Łukasz Piestrzeniewicz. See LICENSE for details.
