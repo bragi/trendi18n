@@ -1,6 +1,14 @@
 = Introduction
 
-Trendi18n is database backend for Rails' i18n.  Trendi18n offers some administration functionality, which offers:
+Trendi18n is database backend for Rails' i18n.
+
+Default backend provided by Rails is a great and simple solution. It is however developer oriented: keeps translations in the files, require repository access for translators and their supervision.
+
+Trendi18n is targeted at projects where translation must be part of administration interface and where it should be possible to modify translations in live application.
+
+= Features
+
+Trendi18n offers some administration functionality, which offers:
 
 * paginated list of translations in database (with locale and translation status conditions)
 * autoassigned status for translations:
