@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Piotr Misiurek", "Piotr Marciniak", "\305\201ukasz Piestrzeniewicz"]
-  s.date = %q{2009-12-14}
+  s.date = %q{2009-12-15}
   s.description = %q{Database backend for i18n (localization files are still supported). This is beta version so give me your feedback}
   s.email = %q{p.misiurek@gmail.com}
   s.extra_rdoc_files = [
@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
      "MIT-LICENSE",
      "README.rdoc",
      "Rakefile",
-     "Trendi18n.gemspec",
      "VERSION",
      "app/models/translation.rb",
      "generators/trendi18n/templates/migrations/create_translations.rb",
@@ -29,6 +28,7 @@ Gem::Specification.new do |s|
      "lib/commands.rb",
      "lib/file.rb",
      "lib/trendi18n.rb",
+     "rails/init.rb",
      "spec/test_application/README",
      "spec/test_application/Rakefile",
      "spec/test_application/app/controllers/application_controller.rb",

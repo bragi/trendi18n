@@ -14,7 +14,7 @@ begin
       gemspec.description = "Database backend for i18n (localization files are still supported). This is beta version so give me your feedback"
       gemspec.email = "p.misiurek@gmail.com"
       gemspec.authors = ["Piotr Misiurek", "Piotr Marciniak", "Łukasz Piestrzeniewicz"]
-      files = FileList["[A-Z]*", "{generators,lib,spec,app}/**/*"]
+      files = FileList["[A-Z]*", "{generators,lib,spec,app,rails}/**/*"]
       files.exclude "spec/test_application/coverage/*"
       files.exclude "spec/test_application/tmp/*"
       files.exclude "spec/test_application/nbproject/*"
