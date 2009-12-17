@@ -1,2 +1,9 @@
 /pkg
 /trendi18n.gemspec
+.*
+#*#
+*~
+/coverage/*
+/nbproject/*
+/rdoc/*
+/spec/test_application/coverage/*

@@ -1,7 +1,8 @@
 class Translation < ActiveRecord::Base
   before_validation :set_state
   before_validation :set_defaults
-  after_save :reload_backend
+  after_update :reload_backend
+  after_create :reload_locales
 
 
   named_scope :untranslated, :conditions => {:state => %w(new unfinished)}
@@ -14,19 +15,25 @@ class Translation < ActiveRecord::Base
 
   @@locales = []
 
-   # return locales if their exists and translations are up-to-date. In other case assign are locales values from db to locales and return this value
+   # return locales which translations are stored in db
   def self.get_locales
     @@locales
   end
 
+  # read locales which translation are stored in db
   def self.set_locales
     @@locales = self.all(:select => "DISTINCT(locale)", :order => "locale ASC").map { |obj| obj.locale  }
+  end
+
+  # reload @@locales if there is no current translations locale included
+  def reload_locales
+    Translation.set_locales unless @@locales.include?(locale)
   end
 
   # This method is running after save translation into db and it is reloading I18n backend (trendi18n)
   def reload_backend
     I18n.backend.reload!
-    Translation.set_locales
+    reload_locales
   end
 
   # auto-magic finder using string normalized key to find translation. The first value in scope is the locale, the last is the key and all between are scopes
@@ -51,25 +58,6 @@ class Translation < ActiveRecord::Base
     self.default = key unless self.default # set key to default if it is not exists
     self.scope = nil if self.scope.blank? #set nil to scope if it is blank (empty string)
     self.translation = nil if self.translation.blank? # set nil to translation if it is blank (empty string)
-  end
-
-  # time of the last db update
-  def self.base_updated_at
-    self.exists?(["updated_at > created_at"]) ? self.first(:order => "updated_at DESC", :conditions => "updated_at > created_at").updated_at : Time.at(0)
-  end
-
-   # time of the db read on current db update
-  def self.read_base
-    @base_read_at = Time.zone.now if @base_read_at.nil?
-  end
-
-  def self.clear_base_read_at
-    @base_read_at = nil
-  end
-
-   # db is up-to-date when it wasn't read or read time is larger then update time
-  def self.up_to_date?
-    @base_read_at.nil? || @base_read_at.to_i > self.base_updated_at.to_i
   end
 
   # don't be nil if there is "{{count}}" in key
@@ -102,7 +90,6 @@ class Translation < ActiveRecord::Base
 
   # look up for translation and return it, if exists, or create if not
   def self.lookup(locale, key, default = nil, scope = nil)
-    self.read_base
     scope = I18n.send(:normalize_translation_keys, locale, key, scope)
     locale = scope.delete_at(0).to_s
     key = scope.delete_at(scope.size - 1).to_s

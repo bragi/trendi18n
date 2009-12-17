@@ -16,6 +16,7 @@ describe Translation do
   end
 
 
+
   describe "state assigment" do
 
     before do
@@ -91,12 +92,36 @@ describe Translation do
     Translation.find_by_string_normalized_key(translation.key).should == translation
   end
 
-  it "should return array of all locale values form db" do
-    Translation.read_base
-    Translation.create!(:key => "key", :locale => "pl")
-    Translation.create!(:key => "key", :locale => "en")
-    Translation.create!(:key => "key", :locale => "nl")
-    Translation.get_locales.should == ["en", "nl", "pl"]
+  describe "locales tools" do
+
+    before(:each) do
+      Translation.set_locales
+    end
+
+    it "should return array of all locale values form db" do
+      Translation.create!(:key => "key", :locale => "pl")
+      Translation.create!(:key => "key", :locale => "en")
+      Translation.create!(:key => "key", :locale => "nl")
+      Translation.get_locales.should == ["en", "nl", "pl"]
+    end
+
+    it "should return array of all locale values form db even some was adding later" do
+      Translation.create!(:key => "key", :locale => "en")
+      Translation.create!(:key => "key", :locale => "nl")
+      Translation.create!(:key => "key", :locale => "pl")
+      Translation.get_locales.should == ["en", "nl", "pl"]
+      Translation.create!(:key => "key", :locale => "uk")
+      Translation.get_locales.should == ["en", "nl", "pl", "uk"]
+    end
+
+    it "should return array of all locale values from db even some translation have changed locale" do
+      Translation.create!(:key => "key", :locale => "en")
+      Translation.create!(:key => "key", :locale => "nl")
+      Translation.create!(:key => "key", :locale => "pl")
+      Translation.get_locales.should == ["en", "nl", "pl"]
+      Translation.find(:first, :conditions => {:locale => "pl", :key => "key"}).update_attribute("locale", "es")
+      Translation.get_locales.should == ["en", "es", "nl"]
+    end
   end
 
   it "should return correct plural form (using count argument)" do

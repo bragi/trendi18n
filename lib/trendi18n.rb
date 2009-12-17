@@ -3,7 +3,6 @@ module Trendi18n
   module Backend
 
     class Trendi18n < I18n::Backend::Simple
-      delegate :up_to_date?, :to => Translation # delgate up_to_date? method to Translation model
 
       # return available locales, based on informaton form Translation model
       def available_locales
@@ -35,12 +34,6 @@ module Trendi18n
         entry = lookup(locale, key, default, scope) # lookup for translation
         entry = entry.pluralize(count) # run pluralization for translation
         entry = interpolate(locale, entry, values) # run interpolation for translation
-      end
-
-
-      def reload!
-        super # run standard I18n::Backend::Simple reload! method
-        Translation.clear_base_read_at # and clear information about time of last translation's base read
       end
 
       protected
