@@ -7,11 +7,12 @@ module Trendi18n
 
       # return available locales, based on informaton form Translation model
       def available_locales
-        Translation.get_locales
+        Translation.locales
       end
 
       # translate key in locale using options
       def translate(locale, key, options = {})
+        reload! unless up_to_date?
         raise InvalidLocale.new(locale) if locale.nil?
 
         #if key is an array then as a result run yourself for all subkey in key
@@ -48,7 +49,6 @@ module Trendi18n
       def init_translations
         # only set @initialized. Translations will be caching in real-time
         @initialized = true
-        Translation.set_locales
       end
 
       # look up for translation. When find cache it and return

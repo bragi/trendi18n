@@ -73,15 +73,19 @@ describe Trendi18n::Backend::Trendi18n do
         I18n.backend.up_to_date?.should == true
       end
 
-      it "should still be up-to-date when we was looking for new translation" do
+      it "should not be up-to-date when we was looking for new translation" do
         I18n.t("non_existing_key")
-        I18n.backend.up_to_date? == true
+        I18n.backend.up_to_date?.should == false
+        # Return true, becouse computer is so fast and I18n.t read the base in the same time
+        # that Translation.lookup add new translation to db. We can change up_to_date? condition
+        # from greater then to greater then or equal to but in this way the test above
+        # will fail
       end
 
-      it "should be up-to-date even translation is updated after use" do
+      it "should not be up-to-date even translation is updated after use" do
         I18n.t("test_key")
         @translation.update_attribute("created_at", 2.minutes.ago)
-        I18n.backend.up_to_date?.should == true
+        I18n.backend.up_to_date?.should == false
       end
     end
   end

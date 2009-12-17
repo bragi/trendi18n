@@ -92,11 +92,21 @@ describe Translation do
   end
 
   it "should return array of all locale values form db" do
-    Translation.read_base
     Translation.create!(:key => "key", :locale => "pl")
     Translation.create!(:key => "key", :locale => "en")
     Translation.create!(:key => "key", :locale => "nl")
-    Translation.get_locales.should == ["en", "nl", "pl"]
+    Translation.locales.should == ["en", "nl", "pl"]
+  end
+
+  it "should return array of all locale values form db even some was adding later" do
+    Translation.create!(:key => "key", :locale => "en")
+    Translation.create!(:key => "key", :locale => "nl")
+    Translation.create!(:key => "key", :locale => "pl")
+    Translation.locales.should == ["en", "nl", "pl"]
+    Translation.create!(:key => "key", :locale => "uk")
+    Translation.locales.should == ["en", "nl", "pl", "uk"]
+    # I add this test to show that we can get info about new added locales if there
+    # are some locales before.
   end
 
   it "should return correct plural form (using count argument)" do
