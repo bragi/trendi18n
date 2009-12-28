@@ -95,33 +95,14 @@ describe Translation do
   describe "locales tools" do
 
     before(:each) do
-      Translation.set_locales
+      I18n.t(:something)
     end
 
-    it "should return array of all locale values form db" do
-      Translation.create!(:key => "key", :locale => "pl")
-      Translation.create!(:key => "key", :locale => "en")
-      Translation.create!(:key => "key", :locale => "nl")
-      Translation.get_locales.should == ["en", "nl", "pl"]
-    end
+    it "should return array of all locale values form db"
 
-    it "should return array of all locale values form db even some was adding later" do
-      Translation.create!(:key => "key", :locale => "en")
-      Translation.create!(:key => "key", :locale => "nl")
-      Translation.create!(:key => "key", :locale => "pl")
-      Translation.get_locales.should == ["en", "nl", "pl"]
-      Translation.create!(:key => "key", :locale => "uk")
-      Translation.get_locales.should == ["en", "nl", "pl", "uk"]
-    end
+    it "should return array of all locale values form db even some was adding later"
 
-    it "should return array of all locale values from db even some translation have changed locale" do
-      Translation.create!(:key => "key", :locale => "en")
-      Translation.create!(:key => "key", :locale => "nl")
-      Translation.create!(:key => "key", :locale => "pl")
-      Translation.get_locales.should == ["en", "nl", "pl"]
-      Translation.find(:first, :conditions => {:locale => "pl", :key => "key"}).update_attribute("locale", "es")
-      Translation.get_locales.should == ["en", "es", "nl"]
-    end
+    it "should return array of all locale values from db even some translation have changed locale"
   end
 
   it "should return correct plural form (using count argument)" do

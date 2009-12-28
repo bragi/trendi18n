@@ -1,9 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-I18n.backend = Trendi18n::Backend::Trendi18n.new
-
-
-
 describe Trendi18n::Backend::Trendi18n do
 
   before do
@@ -42,6 +38,47 @@ describe Trendi18n::Backend::Trendi18n do
       I18n.t("test_key")
       I18n.reload!
       I18n.t("test_key")
+    end
+    describe "up-to-date status" do
+
+      it "should be up-to-date when there is no translations" do
+        Translation.destroy_all
+        I18n.backend.up_to_date?.should == true
+      end
+
+      it "should be up-to-date when there is new translations but nothing was read yet" do
+        # translation is created in before block
+        I18n.backend.up_to_date?.should == true
+      end
+
+      it "should be up-to-date after update existing translation but before read it" do
+        @translation.translation = "New translation"
+        @translation.save
+        I18n.backend.up_to_date?.should == true
+      end
+
+      it "should be up-to-date after beckend reload" do
+        I18n.reload!
+        I18n.backend.up_to_date?.should == true
+      end
+
+      it "should be up-to-date when we read existing translation after changes in db" do
+        Translation.create(:locale => "en", :key => "new_key", :translation => "new translation")
+        I18n.t("test_key")
+        I18n.backend.up_to_date?.should == true
+      end
+
+      it "should be up-to-date when we was looking for new translation" do
+        I18n.t("non_existing_key")
+        I18n.backend.up_to_date?.should == true
+      end
+
+      it "should not be up-to-date if translation is updated after use" do
+        I18n.t("test_key")
+        @translation.update_attribute("created_at", 2.minutes.ago)
+        I18n.backend.up_to_date?.should == false
+      end
+      
     end
   end
 

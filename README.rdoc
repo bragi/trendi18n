@@ -30,7 +30,7 @@ Trendi18n is hosted on gemcutter. Add gemcutter to your gems source and type:
 
 = How to use
 
-If you want to use trendi18n in your app you should do two steps:
+If you want to use trendi18n in your app you should do three steps:
 
 * Add to apps config/environment.rb file:
 
@@ -39,6 +39,10 @@ If you want to use trendi18n in your app you should do two steps:
 * Run trendi18n generator. Type in your app main directory:
 
     ruby script/generate trendi18n
+
+* Add to your ApplicationController:
+
+    include Trendi18n::Handler
 
 = Copyright
 

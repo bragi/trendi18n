@@ -1,9 +1,6 @@
 class Translation < ActiveRecord::Base
   before_validation :set_state
   before_validation :set_defaults
-  after_update :reload_backend
-  after_create :reload_locales
-
 
   named_scope :untranslated, :conditions => {:state => %w(new unfinished)}
   named_scope :translated, :conditions => {:state => "finished"}
@@ -25,15 +22,40 @@ class Translation < ActiveRecord::Base
     @@locales = self.all(:select => "DISTINCT(locale)", :order => "locale ASC").map { |obj| obj.locale  }
   end
 
-  # reload @@locales if there is no current translations locale included
-  def reload_locales
-    Translation.set_locales unless @@locales.include?(locale)
+  # Set @read_time, date and time of first database read on current update.
+  # @read_time is used to get translations cache up-to-date status
+  def self.set_read_time
+    @read_time = Time.zone.now if @read_time.nil?
   end
 
-  # This method is running after save translation into db and it is reloading I18n backend (trendi18n)
-  def reload_backend
-    I18n.backend.reload!
-    reload_locales
+  # Clear value of @read_time. It is used durnig backend reload!
+  def self.clear_read_time
+    @read_time = nil
+  end
+
+  # Return date and time of last translations update in database. It is used to get
+  # translations cache up-to-date status and we need to reload backend only after
+  # update existing translations (new translations will be cached when they will be used
+  # first time), so we are looking for the biggest update time in translations that
+  # updated_at is greater then created_at
+  def self.update_time
+    self.exists?(["updated_at > created_at"]) ? self.first(:conditions => "updated_at > created_at", :order => "updated_at DESC").updated_at : Time.zone.at(0)
+  end
+
+  def self.update_locales_time
+    self.first(:order => "updated_at DESC").updated_at || Time.zone.at(0)
+  end
+
+  # Checking translations cache up-to-date status. We need to reload backend when
+  # cache is not up-to-date. It's going on when so existing translation was updated.
+  # We can't reload backend using after_update callback becouse there can be many
+  # proccesses running our apps and all of them must be reloaded, not only the updater.
+  def self.up_to_date?
+    @read_time.nil? ? true : self.update_time.to_i < @read_time.to_i
+  end
+
+  def self.locales_up_to_date?
+    @read_time.nil? ? true : self.update_locales_time.to_i < @read_time.to_i
   end
 
   # auto-magic finder using string normalized key to find translation. The first value in scope is the locale, the last is the key and all between are scopes
