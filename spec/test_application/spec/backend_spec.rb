@@ -147,8 +147,5 @@ describe Trendi18n::Backend::Trendi18n do
       it "should translate to hash of translations"
 
     end
-
-
   end
-
 end

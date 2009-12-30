@@ -94,15 +94,14 @@ describe Translation do
 
   describe "locales tools" do
 
-    before(:each) do
-      I18n.t(:something)
+    it "should return array of all locale values form db" do
+       Translation.create!(:key => "key", :locale => "pl")
+       Translation.create!(:key => "key", :locale => "en")
+       Translation.create!(:key => "key", :locale => "nl")
+       Translation.set_locales
+       Translation.get_locales.should == ["en", "nl", "pl"]
     end
 
-    it "should return array of all locale values form db"
-
-    it "should return array of all locale values form db even some was adding later"
-
-    it "should return array of all locale values from db even some translation have changed locale"
   end
 
   it "should return correct plural form (using count argument)" do

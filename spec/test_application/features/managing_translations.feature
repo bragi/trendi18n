@@ -59,4 +59,23 @@ Scenario: Editing translations
     And I should see "Key1NewTranslation"
     And I should see "Key1Many"
 
+Scenario: List of available locales
+    Given I have translated "Key1" to "Key1PL" in "pl" locale
+    And I have translated "Key1" to "Key1EN" in "en" locale
+    When I am on the list of available locales
+    Then I should see "en"
+    And I should see "pl"
+    Given I have translated "Key1" to "Key1NL" in "nl" locale
+    When I go to the list of available locales
+    Then I should see "en"
+    And I should see "pl"
+    And I should see "nl"
+    Given I have relocalized "Key1" from "nl" to "es"
+    When I go to the list of available locales
+    Then I should see "en"
+    And I should see "pl"
+    And I should see "es"
+    And I should not see "nl"
+
+
 

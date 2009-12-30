@@ -43,7 +43,7 @@ class Translation < ActiveRecord::Base
   end
 
   def self.update_locales_time
-    self.first(:order => "updated_at DESC").updated_at || Time.zone.at(0)
+    self.exists? ? self.first(:order => "updated_at DESC").updated_at : Time.zone.at(0)
   end
 
   # Checking translations cache up-to-date status. We need to reload backend when

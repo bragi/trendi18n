@@ -5,6 +5,10 @@ class TranslationsController < ApplicationController
     @translations = Translation.localization(params[:localization]).send(params[:condition].downcase.to_sym) if ["untranslated", "translated", "all"].include?(params[:condition].downcase)
   end
 
+  def locales_list
+    @locales = I18n.backend.available_locales
+  end
+
   def new
     @translation = Translation.new
   end

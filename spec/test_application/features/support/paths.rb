@@ -25,6 +25,8 @@ module NavigationHelpers
       edit_translation_path
     when /the translations test page/
       translation_path :id => 1
+    when /the list of available locales/
+      locales_list_translations_url
     
     # Add more mappings here.
     # Here is a more fancy example:

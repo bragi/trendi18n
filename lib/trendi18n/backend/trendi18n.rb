@@ -7,9 +7,9 @@ module Trendi18n
       delegate :up_to_date?, :to => Translation
       delegate :locales_up_to_date?, :to => Translation
 
-
       # return available locales, based on informaton form Translation model
       def available_locales
+        Translation.set_read_time
         Translation.get_locales
       end
 
@@ -47,7 +47,6 @@ module Trendi18n
 
       def locales_reload!
         Translation.set_locales
-        puts "Locales reloaded!\n"
       end
 
       protected
