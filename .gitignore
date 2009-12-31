@@ -7,3 +7,4 @@ trendi18n.gemspec*
 /nbproject/*
 /rdoc/*
 /spec/test_application/coverage/*
+*.sqlite3
