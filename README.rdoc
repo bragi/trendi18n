@@ -44,6 +44,57 @@ If you want to use trendi18n in your app you should do three steps:
 
     include Trendi18n::Handler
 
+= Changelog
+
+=== 0.9.2
+
+* Backend reloading system (multi-threading supported)
+* Getting info of available locales system (multi-threading supported)
+* More documentation
+* Nicer structure of files and directories in lin directory
+
+= How it works
+
+Trendi18n is still supporting default source of translations - localizations files.
+This translations are loaded to standard I18n::Backend::Simple translation store
+system (called 'cache'). When I18n.translate is used:
+
+* First of all, trendi18n lookup translation in cache.
+* If translation is not found in cache then trendi18n lookup translation in db (using Translation model) and add it to cache
+* If translation is not found in db then create empty translation in db (and add it to cache)
+
+=== Translation model
+
+The soul of trendi18n is Translation model used for storing translations in db. If you have naver used rails i18n, you should first read guide: http://guides.rubyonrails.org/i18n.html
+This list of translation's fields (with short description) should be useful:
+
+* *key* - used to identification translation
+* *locale* - locale of translation
+* *scope* - used to identification translation. The same key can be located in various scopes, so there we be various translations. Simply, scope is something like prefix for key. Use dot to separate subscopes
+* *default* - return where there is no translation for this key
+* *translation* - standard translation for this key
+* *zero* - "plural" form of translation, when count is used and it equals 0
+* *one* - "plural" form of translation, when count is used and it equals 1
+* *many* - "plural" form of translation, when count is used and it's greater then 1
+* *few* - currently not used "plural" form of translation, when count is used and it's greater then 1 but smaller then "few + 1"
+* *state* - state of translation. Available values
+
+    * new - new translation
+    * unfinished - translation with some plural forms
+    * finished - finished translation
+
+* *timestamps*
+
+You should use Translation model to managing translations stored in database.
+
+=== Getting more
+
+You can get more information about trendi18n reading our documentation and source
+
+= Bugs, new features etc.
+
+If you find some bugs or you think trendi18n should do something differently or has new features please open new issue on github: http://github.com/bragi/trendi18n/issues
+
 = Copyright
 
 Copyright © 2009 Łukasz Piestrzeniewicz. See LICENSE for details.
