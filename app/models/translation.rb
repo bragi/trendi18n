@@ -12,6 +12,11 @@ class Translation < ActiveRecord::Base
 
   @@locales = []
 
+  # return true if there is no translation with key == name, and there is some translations with scope == name
+  def self.scope?(name, locale = I18n.backend.default_locale)
+    !self.exists?(:key => name, :locale => locale, :scope => nil) && self.exists?(:scope => name, :locale => locale)
+  end
+
    # return locales which translations are stored in db
   def self.get_locales
     @@locales

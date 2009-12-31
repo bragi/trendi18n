@@ -1,5 +1,5 @@
 /pkg/*
-/trendi18n.gemspec
+trendi18n.gemspec*
 .*
 #*#
 *~

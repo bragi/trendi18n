@@ -111,4 +111,32 @@ describe Translation do
     I18n.t("with_count", :count => 2).should == "many (2)"
   end
 
+  describe "scope recognizing" do
+
+    it "should recognize something is scope, not key" do
+      Translation.create!(:key => "key", :locale => "en", :scope => "scope")
+      Translation.scope?("scope", "en").should == true
+    end
+
+    it "should recognize something is key, when scope with the same name exists and key has no scope" do
+      Translation.create!(:key => "scope", :locale => "en")
+      Translation.create!(:key => "key", :scope => "scope", :locale => "en")
+      Translation.scope?("scope", "en").should == false
+    end
+
+    it "should recognize something is scope, when key with the same name exists and has some scope" do
+      Translation.create!(:key => "scope", :locale => "en", :scope => "real.scope")
+      Translation.create!(:key => "key", :locale => "en", :scope => "scope")
+      Translation.scope?("scope", "en").should == true
+    end
+
+    it "should recognize something is scope, when key with the same name exists, but has different locale" do
+      Translation.create!(:key => "scope", :locale => "pl")
+      Translation.create!(:key => "key", :scope => "scope", :locale => "en")
+      Translation.scope?("scope", "pl").should == false
+      Translation.scope?("scope", "en").should == true
+    end
+
+  end
+
 end
