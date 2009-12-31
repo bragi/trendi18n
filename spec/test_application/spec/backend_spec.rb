@@ -39,6 +39,15 @@ describe Trendi18n::Backend::Trendi18n do
       I18n.reload!
       I18n.t("test_key")
     end
+
+    it "should cache all translation from scope, when scope is used as key" do
+      Translation.create!(:key => "key_down", :scope => "testscope", :locale => "en")
+      Translation.create!(:key => "key_up", :scope => "testscope", :locale => "en")
+      I18n.t(:testscope, :locale => "en")
+      Translation.should_not_receive(:lookup)
+      I18n.t(:key_down, :scope => "testscope", :locale => "en")
+    end
+
     describe "up-to-date status" do
 
       it "should be up-to-date when there is no translations" do
@@ -139,12 +148,6 @@ describe Trendi18n::Backend::Trendi18n do
       it "should look up many translations at once, with scope option" do
         I18n.t(["subscope1.key2", "subscope2.key3"], :scope => :scope1).should == ["Translation of key2", "Translation of key3"]
       end
-
-    end
-
-    describe "while scope given as a key" do
-
-      it "should translate to hash of translations"
 
     end
   end

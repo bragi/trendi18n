@@ -13,7 +13,7 @@ class Translation < ActiveRecord::Base
   @@locales = []
 
   # return true if there is no translation with key == name, and there is some translations with scope == name
-  def self.scope?(name, locale = I18n.backend.default_locale)
+  def self.scope?(name, locale = I18n.default_locale.to_s)
     !self.exists?(:key => name, :locale => locale, :scope => nil) && self.exists?(:scope => name, :locale => locale)
   end
 
@@ -134,6 +134,15 @@ class Translation < ActiveRecord::Base
   def to_translation_hash
    path = self.scope.nil? ? [self.key] : self.scope.split(".") << self.key
    return path.reverse.inject(self) {|before, step| { step => before}}
+  end
+
+  def self.scope_to_translation_hash(scope, locale = I18n.default_locale.to_s)
+    children = self.all(:conditions => {:scope => scope, :locale => locale}, :order => "key")
+    hashes = []
+    for child in children
+      hashes.push  child.to_translation_hash
+    end
+    Trendi18n::ScopeTranslations.new(locale, hashes)
   end
 
 end

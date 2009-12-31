@@ -138,5 +138,4 @@ describe Translation do
     end
 
   end
-
 end

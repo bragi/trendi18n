@@ -27,6 +27,13 @@ module Trendi18n
         # read values of scope and default options and delete them form options
         values = options.reject {|name, value| [:scope, :default].include?(name)}
 
+
+        # cache and return all translation from scope if it's used as key
+        if Translation.scope?(key_with_scope = [scope, key].delete_if{|x| x.blank?}.join("."), loc = locale.to_s)
+          cache_translations_from_scope(result = Translation.scope_to_translation_hash(key_with_scope))
+          return result.to_translation_hash
+        end
+
         if key.is_a?(Symbol) # if key is a Symbol
           begin
             return nested.translate(locale, key, options) # use nested translete
@@ -77,6 +84,13 @@ module Trendi18n
       # add translation to stored
       def cache_translation(translation)
         store_translations(translation.locale, translation.to_translation_hash)
+      end
+
+      # cache all translations in scope
+      def cache_translations_from_scope(scope_translation)
+        for hash in scope_translation.to_translation_hash
+          cache_translation(ScopeTranslations.new(scope_translation.locale, hash))
+        end
       end
 
     end
