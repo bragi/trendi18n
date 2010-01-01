@@ -131,18 +131,21 @@ class Translation < ActiveRecord::Base
   end
 
   # return hash ready to by stored as translation
-  def to_translation_hash
-   path = self.scope.nil? ? [self.key] : self.scope.split(".") << self.key
+  def to_translation_hash()
+   path = []
+   path += self.scope.split(".") unless self.scope.nil?
+   path << self.key
    return path.reverse.inject(self) {|before, step| { step => before}}
   end
 
+  # return ready to by stored as translations hash of translations in scope
   def self.scope_to_translation_hash(scope, locale = I18n.default_locale.to_s)
     children = self.all(:conditions => {:scope => scope, :locale => locale}, :order => "key")
-    hashes = []
+    hash = {}
     for child in children
-      hashes.push  child.to_translation_hash
+      hash.deep_merge!  child.to_translation_hash()
     end
-    Trendi18n::ScopeTranslations.new(locale, hashes)
+    Trendi18n::ScopeTranslations.new(locale, hash)
   end
 
 end
