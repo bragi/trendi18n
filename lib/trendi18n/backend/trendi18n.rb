@@ -31,7 +31,7 @@ module Trendi18n
         # cache and return all translation from scope if it's used as key
         if Translation.scope?(key_with_scope = [scope, key].delete_if{|x| x.blank?}.join("."), loc = locale.to_s)
           cache_translation(result = Translation.scope_to_translation_hash(key_with_scope, loc))
-          return result.to_translation_hash[key.to_sym]
+          return result.to_translation_hash[key.to_s]
         end
 
         if key.is_a?(Symbol) # if key is a Symbol

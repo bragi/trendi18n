@@ -40,12 +40,20 @@ describe Trendi18n::Backend::Trendi18n do
       I18n.t("test_key")
     end
 
-    it "should cache all translation from scope, when scope is used as key" do
+    it "should cache all translations from scope, when scope is used as key" do
       Translation.create!(:key => "key_down", :scope => "testscope", :locale => "en")
       Translation.create!(:key => "key_up", :scope => "testscope", :locale => "en")
       I18n.t(:testscope, :locale => "en")
       Translation.should_not_receive(:lookup)
       I18n.t(:key_down, :scope => "testscope", :locale => "en")
+    end
+
+    it "should cache all translations from scope and subscopes, when scope is used as key" do
+      Translation.create!(:key => "key_down", :scope => "testscope.subtest", :locale => "en")
+      Translation.create!(:key => "key_up", :scope => "testscope", :locale => "en")
+      I18n.t(:testscope, :locale => "en")
+      Translation.should_not_receive(:lookup)
+      I18n.t(:key_down, :scope => "testscope.subtest", :locale => "en")
     end
 
     describe "up-to-date status" do
