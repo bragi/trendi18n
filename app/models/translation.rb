@@ -140,7 +140,7 @@ class Translation < ActiveRecord::Base
 
   # return ready to by stored as translations hash of translations in scope
   def self.scope_to_translation_hash(scope, locale = I18n.default_locale.to_s)
-    children = self.find_by_sql "SELECT * FROM translations WHERE scope LIKE '#{scope}%' and locale='#{locale}' ORDER BY id"
+    children = self.find_by_sql ["SELECT * FROM translations WHERE scope LIKE ? and locale=? ORDER BY id", scope + "%", locale]
     hash = {}
     for child in children
       hash.deep_merge!  child.to_translation_hash()
