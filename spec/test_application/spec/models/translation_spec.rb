@@ -99,7 +99,9 @@ describe Translation do
        Translation.create!(:key => "key", :locale => "en")
        Translation.create!(:key => "key", :locale => "nl")
        Translation.set_locales
-       Translation.get_locales.should == ["en", "nl", "pl"]
+       Translation.get_locales.include?(:en).should == true
+       Translation.get_locales.include?(:nl).should == true
+       Translation.get_locales.include?(:pl).should == true
     end
 
   end

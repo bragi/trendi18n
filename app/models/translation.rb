@@ -24,7 +24,7 @@ class Translation < ActiveRecord::Base
 
   # read locales which translation are stored in db
   def self.set_locales
-    @@locales = self.all(:select => "DISTINCT(locale)", :order => "locale ASC").map { |obj| obj.locale  }
+    @@locales = self.all(:select => "DISTINCT(locale)", :order => "locale ASC").map { |obj| obj.locale.to_sym  }
   end
 
   # Set @read_time, date and time of first database read on current update.
