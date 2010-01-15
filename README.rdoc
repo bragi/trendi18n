@@ -46,6 +46,12 @@ If you want to use trendi18n in your app you should do three steps:
 
 = Changelog
 
+=== 0.9.3
+
+* Return all translations form scope, when scope given as a key
+* Trendi18n::Backend::Trendi18n.available_locales use data both from localization files and from database
+* Translation.get_locales return an array of symbols in place of an array of strings
+
 === 0.9.2
 
 * Backend reloading system (multi-threading supported)
