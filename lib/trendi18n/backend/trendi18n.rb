@@ -10,7 +10,7 @@ module Trendi18n
       # return available locales, based on informaton form Translation model
       def available_locales
         Translation.set_read_time
-        Translation.get_locales.collect{|x| x.to_sym} | nested.available_locales
+        Translation.get_locales | nested.available_locales
       end
 
       # translate key in locale using options
