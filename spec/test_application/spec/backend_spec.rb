@@ -158,5 +158,16 @@ describe Trendi18n::Backend::Trendi18n do
       end
 
     end
+
+
   end
+
+  it "should return availables_locales merged form db and files" do
+    Translation.create!(:locale => "pl", :key => "al_test", :translation => "al_test_in_polish")
+    Translation.set_locales
+    I18n.backend.available_locales.include?(:pl).should == true
+    I18n.backend.available_locales.include?(:en).should == true # created by before(each)
+    I18n.backend.available_locales.include?(:fr).should == true # in localization file
+  end
+
 end
