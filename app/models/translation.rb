@@ -13,7 +13,7 @@ class Translation < ActiveRecord::Base
   @@locales = []
 
   # return true if there is no translation with key == name, and there is some translations with scope == name
-  def self.scope?(name, locale = I18n.default_locale.to_s)
+  def self.scope?(name, locale = I18n.locale.to_s)
     !self.exists?(:key => name, :locale => locale, :scope => nil) && self.exists?(:scope => name, :locale => locale)
   end
 
@@ -139,7 +139,7 @@ class Translation < ActiveRecord::Base
   end
 
   # return ready to by stored as translations hash of translations in scope
-  def self.scope_to_translation_hash(scope, locale = I18n.default_locale.to_s)
+  def self.scope_to_translation_hash(scope, locale = I18n.locale.to_s)
     children = self.find_by_sql ["SELECT * FROM translations WHERE scope LIKE ? and locale=? ORDER BY id", scope + "%", locale]
     hash = {}
     for child in children
